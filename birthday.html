@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Panda 🐼</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Short+Stack&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --soft-pink: #ffdae0;
+            --deep-pink: #ff4d6d;
+            --sky-blue: #a2d2ff;
+            --pizza-orange: #ff9f1c;
+        }
+
+        body {
+            background-color: var(--soft-pink);
+            background-image: radial-gradient(#ffffff 15%, transparent 16%), radial-gradient(#ffffff 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            font-family: 'Short Stack', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 50px;
+            border: 8px solid var(--deep-pink);
+            box-shadow: 0 10px 0 var(--deep-pink);
+            max-width: 85%;
+            z-index: 10;
+        }
+
+        h1 { font-family: 'Fredoka One', cursive; color: var(--deep-pink); }
+
+        .press-me-text { font-size: 1.4rem; color: #555; margin-bottom: 10px; font-weight: bold; }
+        
+        .magic-btn {
+            background: var(--deep-pink);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px #c9184a;
+            transition: all 0.2s;
+            font-family: 'Fredoka One', cursive;
+        }
+        .magic-btn:active { transform: translateY(4px); box-shadow: 0 4px #c9184a; }
+
+        #hourly-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #fff0f3;
+            border-radius: 25px;
+            border: 3px dashed var(--deep-pink);
+            color: #d00000;
+            font-size: 1.2rem;
+            display: none;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Cartoon Stickers */
+        .cartoon { width: 100px; position: absolute; animation: float 6s infinite ease-in-out; z-index: 1; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Modal / Pop-up */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 182, 193, 0.9); display: none; justify-content: center;
+            align-items: center; z-index: 100;
+        }
+        .modal {
+            background: white; padding: 30px; border-radius: 40px; border: 6px solid var(--deep-pink);
+            max-width: 90%; width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        .owl-eyes { font-size: 70px; display: inline-block; animation: blink 3s infinite; }
+        @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+        
+        .choice-btn {
+            padding: 15px 25px; margin: 10px; border-radius: 30px; border: none; cursor: pointer;
+            font-family: 'Fredoka One'; font-size: 1.1rem; transition: 0.3s;
+        }
+        .yes-btn { background: #ff7096; color: white; }
+        .no-btn { background: #70e000; color: white; }
+        .choice-btn:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <img src="https://www.pngmart.com/files/16/Tom-And-Jerry-PNG-Photos.png" class="cartoon" style="top:5%; left:5%;">
+    <img src="https://www.pngmart.com/files/16/Cute-Panda-PNG-Transparent.png" class="cartoon" style="bottom:5%; right:5%;">
+    <img src="https://www.pngmart.com/files/1/Pizza-Slice-PNG-Transparent-Image.png" class="cartoon" style="top:15%; right:5%; width:80px;">
+    <img src="https://www.pngmart.com/files/22/Cinnamoroll-PNG-Isolated-Pic.png" class="cartoon" style="bottom:15%; left:5%; width:90px;">
+
+    <div class="container">
+        <h1>Hi Sushu! 🌸</h1>
+        <div class="press-me-text">Press the button below!</div>
+        <button class="magic-btn" onclick="showSurprise()">PRESS ME! ✨</button>
+        <div id="hourly-box"></div>
+    </div>
+
+    <div id="midnight-overlay" class="overlay">
+        <div class="modal">
+            <div class="owl-eyes">🦉</div>
+            <h3>Hoo-Hoo!</h3>
+            <p id="owl-question" style="font-size: 1.2rem;">Are you still angry with me, hooman? <br><br> (Your Owl misses his Panda!)</p>
+            <div id="modal-buttons">
+                <button class="choice-btn yes-btn" onclick="owlResponse('yes')">Yes, Hmph! 😤</button>
+                <button class="choice-btn no-btn" onclick="owlResponse('no')">No, I'm not! 😊</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            "Good morning Panda! Today is the start of your birthday eve! ☀️",
+            "Checking in... yup, you're still the cutest Panda ever! 🐼",
+            "Owl is sending a little 'I'm sorry' hug through the screen... 🦉",
+            "Did someone say Pizza? Oh wait, that's later! 🍕",
+            "Sushu + Cake = The best combination today! 🎂",
+            "Almost midnight! Get ready for the big Hoo-Hoo! 🎈",
+            "No matter what, you're my favorite human. ✨"
+        ];
+
+        function showSurprise() {
+            const box = document.getElementById('hourly-box');
+            const now = new Date();
+            const hour = now.getHours();
+            
+            box.style.display = 'block';
+            if (hour >= 7) {
+                let index = (hour - 7) % messages.length;
+                box.innerText = messages[index];
+            } else {
+                box.innerText = "It's a bit early for the magic! Come back after 7am! 😴";
+            }
+        }
+
+        function checkMidnight() {
+            const now = new Date();
+            // Activates on Jan 20th
+            if (now.getMonth() === 0 && now.getDate() >= 20) {
+                document.getElementById('midnight-overlay').style.display = 'flex';
+            }
+        }
+
+        function owlResponse(answer) {
+            const questionText = document.getElementById('owl-question');
+            const btnArea = document.getElementById('modal-buttons');
+            
+            if (answer === 'yes') {
+                questionText.innerHTML = "😔 *Sad Owl Noises* <br><br>Hoo-Hoo! Special delivery for the birthday Panda! 🐼 Happy Birthday, Sushu! I know I can be a silly owl sometimes, but I promise I’m the owl that cares about you the most. Even if we fight, you’re stuck with me. I'll wait until you're not grumpy anymore... Happy Birthday, maa! 🎈🎁";
+            } else {
+                questionText.innerHTML = "🥳 *Happy Owl Flaps!* <br><br>Hoo-Hoo! 🦉 Special delivery for the birthday Panda! 🐼 Happy Birthday, Sushu! I know I can be a silly owl sometimes, but I promise I’m the owl that cares about you the most. Even if we fight, you’re stuck with me because nobody else understands our vibe. Eat lots of cake today, stay grumpy-free, and let’s make this year 100x better than the last few days. Also, prepare your appetite because we are going out for pizzas very soon! 🍕😂 Happy Birthday, maa! 🎈🎁";
+            }
+            btnArea.innerHTML = '<button class="choice-btn no-btn" onclick="closeModal()">❤️ Close</button>';
+        }
+
+        function closeModal() {
+            document.getElementById('midnight-overlay').style.display = 'none';
+        }
+
+        setInterval(checkMidnight, 10000);
+        checkMidnight();
+    </script>
+</body>
+</html>
